@@ -1,12 +1,14 @@
 #include "SpriteManager.h"
 
+#include <iostream>
 #include <optional>
 
 std::optional<SpriteManager> SpriteManager::instance;
 
 SpriteManager::SpriteManager() {
     assetPaths[SpriteAssets::StartNode] = "./res/sprites/StartNode.png";
-    assetPaths[SpriteAssets::Pin] = "./res/sprites/Pin.png";
+    assetPaths[SpriteAssets::PinIn] = "./res/sprites/PinIn.png";
+    assetPaths[SpriteAssets::PinOut] = "./res/sprites/PinOut.png";
 }
 
 SpriteManager &SpriteManager::getInstance() {
@@ -29,5 +31,7 @@ std::reference_wrapper<olc::Renderable>
 void SpriteManager::loadAsset(SpriteAssets asset) {
     auto path = assetPaths[asset];
 
-    loadedSprites[asset].Load(path);
+    if (loadedSprites[asset].Load(path) == olc::rcode::NO_FILE) {
+        std::cerr << "Couldn't load file \"" << assetPaths[asset] << "\"!\n";
+    }
 }

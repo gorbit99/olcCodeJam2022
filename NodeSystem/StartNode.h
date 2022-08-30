@@ -2,7 +2,7 @@
 
 class StartNode : public Node {
 public:
-    StartNode();
+    StartNode(olc::vf2d position);
 
 private:
 };

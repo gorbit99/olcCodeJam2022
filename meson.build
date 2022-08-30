@@ -1,6 +1,6 @@
 project('CodeJam2022', 'cpp',
   version : '0.1',
-  default_options : ['warning_level=3', 'cpp_std=c++20']
+  default_options : ['warning_level=2', 'cpp_std=c++20']
 )
 
 external_deps = [dependency('threads'), dependency('gl')]
@@ -26,6 +26,8 @@ sources = [
   'Engine.cpp',
   'NodeSystem/Node.cpp',
   'NodeSystem/StartNode.cpp',
+  'NodeSystem/NodePin.cpp',
+  'NodeSystem/InputPin.cpp',
   'AssetSystem/SpriteManager.cpp',
 ]
 
@@ -39,3 +41,16 @@ exe = executable('codejam2022', sources,
 )
 
 test('basic', exe)
+
+custom_target('copy resources',
+  depends: exe,
+  input: exe,
+  output: 'fake',
+  command: [
+    'cp',
+    '-r',
+    join_paths(meson.source_root(), 'res'),
+    meson.build_root(),
+  ],
+  build_by_default: true,
+)

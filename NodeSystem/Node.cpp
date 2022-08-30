@@ -4,49 +4,20 @@
 
 #include <vector>
 
-// NodePin
-
-Node::NodePin::NodePin(olc::vf2d offset, PinType pinType)
-        : offset{offset},
-          pinType{pinType} {
+Node::Node(olc::Renderable &graphic, olc::vf2d position)
+        : graphic{graphic},
+          position{position} {
 }
 
-olc::vf2d Node::NodePin::getOffset() {
-    return offset;
-}
-
-Node::NodePin::PinType Node::NodePin::getPinType() {
-    return pinType;
-}
-
-void Node::NodePin::draw(olc::PixelGameEngine *pge, Node &parent) {
-    auto sprite = SpriteManager::getInstance().getSprite(
-            SpriteManager::SpriteAssets::Pin);
-
+void Node::draw(olc::PixelGameEngine *pge) {
     auto halfSize = olc::vi2d{
-            sprite.get().Sprite()->width / 2,
-            sprite.get().Sprite()->height / 2,
+            graphic.get().Sprite()->width,
+            graphic.get().Sprite()->height,
     };
 
-    pge->DrawDecal(parent.position + halfSize, sprite.get().Decal());
+    pge->DrawDecal(position - halfSize, graphic.get().Decal(), {2, 2});
 }
 
-// Node
-
-Node::Node(olc::Renderable &graphic, std::vector<NodePin> pins)
-        : pins{pins},
-          graphic{graphic} {
-}
-
-void Node::draw(olc::PixelGameEngine *pge, olc::vf2d pos) {
-    auto halfSize = olc::vi2d{
-            graphic.get().Sprite()->width / 2,
-            graphic.get().Sprite()->height / 2,
-    };
-
-    pge->DrawDecal(pos + halfSize, graphic.get().Decal());
-
-    for (auto &pin : pins) {
-        pin.draw(pge, *this);
-    }
+olc::vf2d Node::getCenter() const {
+    return position;
 }

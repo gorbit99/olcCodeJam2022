@@ -3,9 +3,10 @@
 #include "../AssetSystem/SpriteManager.h"
 #include "NodeSystem/Node.h"
 
-StartNode::StartNode()
-        : Node{SpriteManager::getInstance().getSprite(
-                       SpriteManager::SpriteAssets::StartNode),
-               {}} {
-    pins.emplace_back(NodePin{{8, 0}, NodePin::PinType::Out});
+StartNode::StartNode(olc::vf2d position)
+        : Node{
+                SpriteManager::getInstance().getSprite(
+                        SpriteManager::SpriteAssets::StartNode),
+                position,
+        } {
 }

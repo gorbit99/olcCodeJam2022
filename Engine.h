@@ -10,5 +10,5 @@ public:
     bool OnUserUpdate(float fElapsedTime) override;
 
 private:
-    StartNode startNode;
+    std::unique_ptr<StartNode> startNode;
 };

@@ -8,7 +8,8 @@
 class SpriteManager {
 public:
     enum class SpriteAssets {
-        Pin,
+        PinIn,
+        PinOut,
         StartNode,
     };
 
