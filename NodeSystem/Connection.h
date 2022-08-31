@@ -1,15 +1,28 @@
 #pragma once
 
-#include "NodeSystem/InputType.h"
-#include "NodeSystem/Node.h"
+#include "NodeSystem/PinType.h"
+#include "Utils/Drawing.h"
+#include "olcPixelGameEngine.h"
 
 #include <functional>
+#include <tuple>
 
-template<typename ConnectionType>
+class InputPin;
+
+class OutputPin;
+
 class Connection {
 public:
-    Connection(InputType inputType);
+    Connection(OutputPin &sourcePin, InputPin &targetPin, PinType pinType);
+    ~Connection();
+    void sendData(PinData data);
+    void draw(olc::PixelGameEngine *pge) const;
+    bool isPointOver(olc::vf2d point) const;
 
 private:
-    std::reference_wrapper<Node> endTarget;
+    std::tuple<olc::vf2d, olc::vf2d, olc::vf2d, olc::vf2d> getPoints() const;
+
+    OutputPin &sourcePin;
+    InputPin &targetPin;
+    PinType pinType;
 };

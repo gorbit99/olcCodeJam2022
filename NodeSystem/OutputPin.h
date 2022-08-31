@@ -1,44 +1,24 @@
-
 #pragma once
 
-#include "AssetSystem/SpriteManager.h"
-#include "Node.h"
-#include "NodeSystem/NodePin.h"
+#include "Connection.h"
+#include "NodePin.h"
+#include "PinType.h"
 
 #include <optional>
+#include <vector>
 
-template<typename DataType>
-class OutputPin : public NodePin<DataType> {
+class Node;
+
+class OutputPin : public NodePin {
 public:
-    OutputPin(olc::vf2d offset, PinType pinType)
-            : NodePin<DataType>{offset, pinType} {
-    }
-
-    void sendData(DataType &data) {
-    }
-
-    void setData(DataType data) {
-        this->data = data;
-    }
-
-    void draw(olc::PixelGameEngine *pge, olc::vf2d parentCenter) override {
-        auto sprite = SpriteManager::getInstance().getSprite(
-                SpriteManager::SpriteAssets::PinIn);
-
-        auto halfSize = olc::vi2d{
-                sprite.get().Sprite()->width,
-                sprite.get().Sprite()->height,
-        };
-
-        auto color = NodePin<DataType>::getColor();
-
-        pge->DrawDecal(parentCenter + NodePin<DataType>::getOffset() * 2
-                               - halfSize,
-                       sprite.get().Decal(),
-                       {2, 2},
-                       color);
-    }
+    OutputPin(olc::vf2d offset, PinType pinType, Node &parent);
+    void sendData(PinData &data);
+    void connectTo(InputPin &other);
+    void disconnect();
+    void draw(olc::PixelGameEngine *pge) const override;
+    Connection &getConnection();
+    bool isConnected() const override;
 
 private:
-    std::optional<Connection>
+    std::optional<Connection> connection;
 };

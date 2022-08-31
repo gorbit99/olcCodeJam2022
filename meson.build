@@ -26,9 +26,14 @@ sources = [
   'Engine.cpp',
   'NodeSystem/Node.cpp',
   'NodeSystem/StartNode.cpp',
+  'NodeSystem/TurnLeftNode.cpp',
   'NodeSystem/NodePin.cpp',
   'NodeSystem/InputPin.cpp',
+  'NodeSystem/OutputPin.cpp',
+  'NodeSystem/Connection.cpp',
+  'NodeSystem/Board.cpp',
   'AssetSystem/SpriteManager.cpp',
+  'Utils/Drawing.cpp',
 ]
 
 include_dir = include_directories('include')

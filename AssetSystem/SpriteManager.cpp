@@ -6,9 +6,10 @@
 std::optional<SpriteManager> SpriteManager::instance;
 
 SpriteManager::SpriteManager() {
-    assetPaths[SpriteAssets::StartNode] = "./res/sprites/StartNode.png";
     assetPaths[SpriteAssets::PinIn] = "./res/sprites/PinIn.png";
     assetPaths[SpriteAssets::PinOut] = "./res/sprites/PinOut.png";
+    assetPaths[SpriteAssets::StartNode] = "./res/sprites/StartNode.png";
+    assetPaths[SpriteAssets::TurnLeftNode] = "./res/sprites/StartNode.png";
 }
 
 SpriteManager &SpriteManager::getInstance() {

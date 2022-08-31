@@ -1,42 +1,26 @@
 #pragma once
 
-#include "AssetSystem/SpriteManager.h"
-#include "Node.h"
 #include "NodeSystem/NodePin.h"
+#include "NodeSystem/OutputPin.h"
+#include "NodeSystem/PinType.h"
 
-template<typename DataType>
-class InputPin : public NodePin<DataType> {
+#include <functional>
+#include <optional>
+
+class InputPin : public NodePin {
 public:
-    InputPin(olc::vf2d offset, PinType pinType)
-            : NodePin<DataType>{offset, pinType} {
-    }
-
-    DataType &getData() const {
-        return data;
-    }
-
-    void setData(DataType data) {
-        this->data = data;
-    }
-
-    void draw(olc::PixelGameEngine *pge, olc::vf2d parentCenter) override {
-        auto sprite = SpriteManager::getInstance().getSprite(
-                SpriteManager::SpriteAssets::PinIn);
-
-        auto halfSize = olc::vi2d{
-                sprite.get().Sprite()->width,
-                sprite.get().Sprite()->height,
-        };
-
-        auto color = NodePin<DataType>::getColor();
-
-        pge->DrawDecal(parentCenter + NodePin<DataType>::getOffset() * 2
-                               - halfSize,
-                       sprite.get().Decal(),
-                       {2, 2},
-                       color);
-    }
+    InputPin(olc::vf2d offset, PinType pinType, Node &parent);
+    ~InputPin();
+    PinData takeData();
+    const PinData &getData() const;
+    void setData(PinData data);
+    void draw(olc::PixelGameEngine *pge) const override;
+    void connectTo(OutputPin &outputPin);
+    void disconnect();
+    bool isConnected() const override;
 
 private:
-    DataType data;
+    std::optional<PinData> data;
+
+    std::optional<std::reference_wrapper<OutputPin>> connectedPin;
 };

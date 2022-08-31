@@ -1,7 +1,6 @@
 #include "StartNode.h"
 
-#include "../AssetSystem/SpriteManager.h"
-#include "NodeSystem/Node.h"
+#include "AssetSystem/SpriteManager.h"
 
 StartNode::StartNode(olc::vf2d position)
         : Node{
@@ -9,4 +8,5 @@ StartNode::StartNode(olc::vf2d position)
                         SpriteManager::SpriteAssets::StartNode),
                 position,
         } {
+    outputPins.push_back(OutputPin{{8, 0}, PinType::Flow, *this});
 }

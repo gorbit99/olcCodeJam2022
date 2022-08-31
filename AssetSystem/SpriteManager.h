@@ -1,3 +1,5 @@
+#pragma once
+
 #include "olcPixelGameEngine.h"
 
 #include <functional>
@@ -11,6 +13,7 @@ public:
         PinIn,
         PinOut,
         StartNode,
+        TurnLeftNode,
     };
 
     static SpriteManager &getInstance();

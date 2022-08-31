@@ -7,14 +7,16 @@ Game::Game() {
 }
 
 bool Game::OnUserCreate() {
-    startNode = std::make_unique<StartNode>(olc::vf2d{20, 20});
+    board.init();
     return true;
 }
 
 bool Game::OnUserUpdate(float fElapsedTime) {
     Clear(olc::BLACK);
 
-    startNode->draw(this);
+    board.update(this);
+
+    board.draw(this);
 
     return true;
 }

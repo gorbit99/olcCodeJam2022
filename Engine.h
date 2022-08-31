@@ -1,6 +1,9 @@
 #pragma once
 
+#include "NodeSystem/Board.h"
+#include "NodeSystem/Node.h"
 #include "NodeSystem/StartNode.h"
+#include "NodeSystem/TurnLeftNode.h"
 #include "olcPixelGameEngine.h"
 
 class Game : public olc::PixelGameEngine {
@@ -9,6 +12,5 @@ public:
     bool OnUserCreate() override;
     bool OnUserUpdate(float fElapsedTime) override;
 
-private:
-    std::unique_ptr<StartNode> startNode;
+    Board board;
 };
