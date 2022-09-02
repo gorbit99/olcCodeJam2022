@@ -29,18 +29,18 @@ void InputPin::setData(PinData data) {
 }
 
 void InputPin::draw(olc::PixelGameEngine *pge) const {
-    auto sprite = SpriteManager::getInstance().getSprite(
+    auto &sprite = SpriteManager::getInstance().getSprite(
             SpriteManager::SpriteAssets::PinIn);
 
     auto halfSize = olc::vi2d{
-            sprite.get().Sprite()->width / 2,
-            sprite.get().Sprite()->height / 2,
+            sprite.Sprite()->width / 2,
+            sprite.Sprite()->height / 2,
     };
 
     auto color = NodePin::getColor();
 
     pge->DrawDecal(NodePin::getPosition() - halfSize * 2,
-                   sprite.get().Decal(),
+                   sprite.Decal(),
                    {2, 2},
                    color);
 }

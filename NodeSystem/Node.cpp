@@ -3,6 +3,7 @@
 #include "AssetSystem/SpriteManager.h"
 #include "NodeSystem/InputPin.h"
 
+#include <iostream>
 #include <vector>
 
 Node::Node(olc::Renderable &graphic, olc::vf2d position)

@@ -10,6 +10,9 @@ public:
     void turnRight();
 
 private:
+    olc::vf2d determineCurrentPosition() const;
+    float nextRotationDegrees() const;
+
     enum class Direction {
         Up,
         Down,
@@ -17,6 +20,10 @@ private:
         Right,
     };
 
-    olc::vf2d position{0, 0};
+    olc::vi2d position{0, 0};
     Direction direction = Direction::Right;
+    Direction nextDirection = Direction::Right;
+    float currentMoveProgress = 0;
+
+    static const float moveTime;
 };

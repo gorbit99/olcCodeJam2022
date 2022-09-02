@@ -135,7 +135,8 @@ void Board::handlePinDragging(olc::PixelGameEngine *pge) {
         for (auto &node : nodes) {
             if (state == State::ConnectingOutputPin) {
                 for (auto &pin : node->getInputPins()) {
-                    if (pin.isConnected()) {
+                    if (pin.isConnected()
+                        || !pin.isPointOver(pge->GetMousePos())) {
                         continue;
                     }
 
@@ -145,7 +146,8 @@ void Board::handlePinDragging(olc::PixelGameEngine *pge) {
                 }
             } else {
                 for (auto &pin : node->getOutputPins()) {
-                    if (pin.isConnected()) {
+                    if (pin.isConnected()
+                        || !pin.isPointOver(pge->GetMousePos())) {
                         continue;
                     }
 
@@ -198,8 +200,10 @@ void Board::handleNodeRightClick(olc::PixelGameEngine *pge) {
         return;
     }
 
-    nodes.erase(
-            std::remove_if(nodes.begin(), nodes.end(), [&](const auto &node) {
-                return node->isPointOver(pge->GetMousePos());
-            }));
+    nodes.erase(std::remove_if(nodes.begin(),
+                               nodes.end(),
+                               [&](const auto &node) {
+                                   return node->isPointOver(pge->GetMousePos());
+                               }),
+                nodes.end());
 }

@@ -17,6 +17,7 @@ bool Game::OnUserUpdate(float fElapsedTime) {
     board.update(this);
 
     board.draw(this);
+    field.draw(this);
 
     return true;
 }

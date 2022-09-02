@@ -10,6 +10,7 @@ SpriteManager::SpriteManager() {
     assetPaths[SpriteAssets::PinOut] = "./res/sprites/PinOut.png";
     assetPaths[SpriteAssets::StartNode] = "./res/sprites/StartNode.png";
     assetPaths[SpriteAssets::TurnLeftNode] = "./res/sprites/StartNode.png";
+    assetPaths[SpriteAssets::Airplane] = "./res/sprites/Airplane.png";
 }
 
 SpriteManager &SpriteManager::getInstance() {
@@ -20,8 +21,7 @@ SpriteManager &SpriteManager::getInstance() {
     return instance.value();
 }
 
-std::reference_wrapper<olc::Renderable>
-        SpriteManager::getSprite(SpriteAssets asset) {
+olc::Renderable &SpriteManager::getSprite(SpriteAssets asset) {
     if (loadedSprites.find(asset) == loadedSprites.end()) {
         loadAsset(asset);
     }

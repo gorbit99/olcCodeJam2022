@@ -4,6 +4,7 @@
 #include "NodeSystem/Node.h"
 #include "NodeSystem/StartNode.h"
 #include "NodeSystem/TurnLeftNode.h"
+#include "Scene/Field.h"
 #include "olcPixelGameEngine.h"
 
 class Game : public olc::PixelGameEngine {
@@ -13,4 +14,5 @@ public:
     bool OnUserUpdate(float fElapsedTime) override;
 
     Board board;
+    Field field;
 };

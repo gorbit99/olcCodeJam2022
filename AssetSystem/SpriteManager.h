@@ -14,11 +14,12 @@ public:
         PinOut,
         StartNode,
         TurnLeftNode,
+        Airplane,
     };
 
     static SpriteManager &getInstance();
 
-    std::reference_wrapper<olc::Renderable> getSprite(SpriteAssets asset);
+    olc::Renderable &getSprite(SpriteAssets asset);
 
 private:
     SpriteManager();

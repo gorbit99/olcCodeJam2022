@@ -23,7 +23,9 @@ endif
 
 sources = [
   'main.cpp',
+
   'Engine.cpp',
+
   'NodeSystem/Node.cpp',
   'NodeSystem/StartNode.cpp',
   'NodeSystem/TurnLeftNode.cpp',
@@ -32,8 +34,13 @@ sources = [
   'NodeSystem/OutputPin.cpp',
   'NodeSystem/Connection.cpp',
   'NodeSystem/Board.cpp',
+  
   'AssetSystem/SpriteManager.cpp',
+
   'Utils/Drawing.cpp',
+
+  'Scene/Field.cpp',
+  'Scene/Airplane.cpp',
 ]
 
 include_dir = include_directories('include')

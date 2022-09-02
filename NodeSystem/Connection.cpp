@@ -18,7 +18,7 @@ Connection::Connection(OutputPin &sourcePin,
 }
 
 Connection::~Connection() {
-    sourcePin.disconnect();
+    targetPin.disconnect();
 }
 
 void Connection::sendData(PinData data) {
@@ -81,5 +81,5 @@ bool Connection::isPointOver(olc::vf2d point) const {
                       std::min(len, (point - sourceEndPos).dot(dirVector)));
 
     auto projectedPoint = sourceEndPos + t * (dirVector);
-    return (point - projectedPoint).mag() < 4;
+    return (point - projectedPoint).mag() < 7;
 }
