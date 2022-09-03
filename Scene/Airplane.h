@@ -8,11 +8,10 @@ public:
     void draw(olc::PixelGameEngine *pge) const;
     void turnLeft();
     void turnRight();
+    olc::vi2d getPosition() const;
+    static const float moveTime;
 
 private:
-    olc::vf2d determineCurrentPosition() const;
-    float nextRotationDegrees() const;
-
     enum class Direction {
         Up,
         Down,
@@ -20,10 +19,16 @@ private:
         Right,
     };
 
-    olc::vi2d position{0, 0};
+    olc::vf2d determineCurrentPosition() const;
+    float determineCurrentRotation() const;
+    float nextRotationDegrees() const;
+    olc::vf2d getPositionOffset() const;
+
+    static olc::vi2d directionToVector(Direction direction);
+    static float directionToAngle(Direction direction);
+
+    olc::vi2d position{3, 3};
     Direction direction = Direction::Right;
     Direction nextDirection = Direction::Right;
     float currentMoveProgress = 0;
-
-    static const float moveTime;
 };

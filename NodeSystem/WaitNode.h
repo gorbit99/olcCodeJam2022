@@ -4,9 +4,9 @@
 #include "NodeSystem/InputPin.h"
 #include "NodeSystem/Node.h"
 
-class TurnLeftNode : public Node {
+class WaitNode : public Node {
 public:
-    TurnLeftNode(olc::vf2d position);
+    WaitNode(olc::vf2d position);
 
     EvaluationResult evaluate(Field &field) override;
 };

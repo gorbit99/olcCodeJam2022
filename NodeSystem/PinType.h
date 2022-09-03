@@ -16,4 +16,4 @@ const std::unordered_map<PinType, olc::Pixel> pinTypeColors = {
         {PinType::Logic, olc::GREEN},
         {PinType::Number, olc::YELLOW}};
 
-typedef std::variant<bool, float> PinData;
+typedef std::variant<bool, float, std::monostate> PinData;

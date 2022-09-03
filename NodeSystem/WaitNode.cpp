@@ -1,20 +1,18 @@
-#include "TurnLeftNode.h"
+#include "WaitNode.h"
 
 #include "AssetSystem/SpriteManager.h"
 #include "NodeSystem/InputPin.h"
 
-TurnLeftNode::TurnLeftNode(olc::vf2d position)
+WaitNode::WaitNode(olc::vf2d position)
         : Node{
                 SpriteManager::getInstance().getSprite(
-                        SpriteManager::SpriteAssets::TurnLeftNode),
+                        SpriteManager::SpriteAssets::WaitNode),
                 position,
         } {
     inputPins.push_back(InputPin{{-8, 0}, PinType::Flow, *this});
     outputPins.push_back(OutputPin{{8, 0}, PinType::Flow, *this});
 }
 
-EvaluationResult TurnLeftNode::evaluate(Field &field) {
-    field.turnLeft();
-
-    return {connectedFromPin(0), false};
+EvaluationResult WaitNode::evaluate(Field &) {
+    return {connectedFromPin(0), true};
 }

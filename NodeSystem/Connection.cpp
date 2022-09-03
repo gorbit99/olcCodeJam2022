@@ -3,6 +3,7 @@
 #include "Node.h"
 #include "NodeSystem/InputPin.h"
 #include "NodeSystem/OutputPin.h"
+#include "Utils/Math.h"
 
 #include <algorithm>
 #include <iostream>
@@ -18,7 +19,7 @@ Connection::Connection(OutputPin &sourcePin,
 }
 
 Connection::~Connection() {
-    targetPin.disconnect();
+    targetPin.disconnect(sourcePin);
 }
 
 void Connection::sendData(PinData data) {
@@ -34,7 +35,7 @@ void Connection::draw(olc::PixelGameEngine *pge) const {
     drawThickLine(pge, sourceStartPos, sourceEndPos, 4, color);
     drawThickLine(pge, targetEndPos, targetStartPos, 4, color);
 
-    if (&sourcePin.getParent() == &targetPin.getParent()) {
+    if (connectedToSelf()) {
         auto nodeCenter = sourcePin.getParent().getCenter();
 
         auto bottomHeight =
@@ -70,16 +71,31 @@ bool Connection::isPointOver(olc::vf2d point) const {
     auto [sourceStartPos, sourceEndPos, targetEndPos, targetStartPos] =
             getPoints();
 
-    auto len = (targetEndPos - sourceEndPos).mag();
-    if (len == 0) {
-        return false;
+    if (connectedToSelf()) {
+        auto nodeCenter = sourcePin.getParent().getCenter();
+
+        auto bottomHeight =
+                nodeCenter.y + sourcePin.getParent().getSize().y / 2.0f;
+
+        auto leftPoint = olc::vf2d{targetEndPos.x, bottomHeight + 14};
+        auto rightPoint = olc::vf2d{sourceEndPos.x, bottomHeight + 14};
+
+        return Math::isPointOverLine(point, targetEndPos, leftPoint, 7)
+               || Math::isPointOverLine(point, leftPoint, rightPoint, 7)
+               || Math::isPointOverLine(point, rightPoint, sourceEndPos, 7);
     }
 
-    auto dirVector = (targetEndPos - sourceEndPos) / len;
+    return Math::isPointOverLine(point, sourceEndPos, targetEndPos, 7);
+}
 
-    auto t = std::max(0.0f,
-                      std::min(len, (point - sourceEndPos).dot(dirVector)));
+bool Connection::connectedToSelf() const {
+    return &sourcePin.getParent() == &targetPin.getParent();
+}
 
-    auto projectedPoint = sourceEndPos + t * (dirVector);
-    return (point - projectedPoint).mag() < 7;
+OutputPin &Connection::getSourcePin() {
+    return sourcePin;
+}
+
+InputPin &Connection::getTargetPin() {
+    return targetPin;
 }

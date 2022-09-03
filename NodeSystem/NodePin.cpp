@@ -1,6 +1,7 @@
 #include "NodePin.h"
 
 #include "Node.h"
+#include "NodeSystem/PinType.h"
 
 NodePin::NodePin(olc::vf2d offset, PinType pinType, Node &parent)
         : pinType{pinType},
@@ -39,4 +40,8 @@ bool NodePin::isPointOver(olc::vf2d point) const {
 
     return point.x >= topLeft.x && point.x <= bottomRight.x
            && point.y >= topLeft.y && point.y <= bottomRight.y;
+}
+
+PinType NodePin::getPinType() const {
+    return pinType;
 }

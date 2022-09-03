@@ -55,3 +55,16 @@ std::vector<OutputPin> &Node::getOutputPins() {
 void Node::setPosition(olc::vf2d position) {
     this->position = position;
 }
+
+std::optional<std::reference_wrapper<Node>>
+        Node::connectedFromPin(uint32_t pin) {
+    if (!outputPins.at(pin).isConnected()) {
+        return std::optional<std::reference_wrapper<Node>>{};
+    }
+
+    return outputPins.at(pin).getConnection().getTargetPin().getParent();
+}
+
+bool Node::interact(olc::PixelGameEngine *) {
+    return false;
+}

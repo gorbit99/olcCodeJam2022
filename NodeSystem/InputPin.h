@@ -6,21 +6,21 @@
 
 #include <functional>
 #include <optional>
+#include <vector>
 
 class InputPin : public NodePin {
 public:
     InputPin(olc::vf2d offset, PinType pinType, Node &parent);
     ~InputPin();
     PinData takeData();
-    const PinData &getData() const;
     void setData(PinData data);
     void draw(olc::PixelGameEngine *pge) const override;
     void connectTo(OutputPin &outputPin);
-    void disconnect();
+    void disconnect(OutputPin &outputPin);
     bool isConnected() const override;
 
 private:
     std::optional<PinData> data;
 
-    std::optional<std::reference_wrapper<OutputPin>> connectedPin;
+    std::vector<std::reference_wrapper<OutputPin>> connectedPins;
 };

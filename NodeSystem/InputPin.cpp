@@ -4,24 +4,32 @@
 #include "NodeSystem/OutputPin.h"
 #include "NodeSystem/PinType.h"
 
+#include <algorithm>
+
 InputPin::InputPin(olc::vf2d offset, PinType pinType, Node &parent)
         : NodePin{offset, pinType, parent} {
 }
 
 InputPin::~InputPin() {
-    if (connectedPin.has_value()) {
-        connectedPin->get().disconnect();
+    for (auto &connectedPin : connectedPins) {
+        connectedPin.get().disconnect();
     }
 }
 
 PinData InputPin::takeData() {
+    if (!data.has_value()) {
+        switch (pinType) {
+        case PinType::Flow:
+            return std::monostate{};
+        case PinType::Logic:
+            return false;
+        case PinType::Number:
+            return 0.0f;
+        }
+    }
     auto result = data.value();
     data.reset();
     return result;
-}
-
-const PinData &InputPin::getData() const {
-    return data.value();
 }
 
 void InputPin::setData(PinData data) {
@@ -46,13 +54,19 @@ void InputPin::draw(olc::PixelGameEngine *pge) const {
 }
 
 void InputPin::connectTo(OutputPin &outputPin) {
-    connectedPin = outputPin;
+    connectedPins.push_back(outputPin);
 }
 
-void InputPin::disconnect() {
-    connectedPin.reset();
+void InputPin::disconnect(OutputPin &outputPin) {
+    connectedPins.erase(std::remove_if(connectedPins.begin(),
+                                       connectedPins.end(),
+                                       [&](const auto &connectedPin) {
+                                           return &connectedPin.get()
+                                                  == &outputPin;
+                                       }),
+                        connectedPins.end());
 }
 
 bool InputPin::isConnected() const {
-    return connectedPin.has_value();
+    return connectedPins.size() > 0;
 }

@@ -20,6 +20,7 @@ public:
     const Node &getParent() const;
     bool isPointOver(olc::vf2d point) const;
     virtual bool isConnected() const = 0;
+    PinType getPinType() const;
 
 protected:
     olc::Pixel getColor() const;

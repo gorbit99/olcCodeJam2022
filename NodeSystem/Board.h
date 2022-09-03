@@ -1,6 +1,9 @@
 #pragma once
 
-#include "NodeSystem/Node.h"
+#include "Evaluator.h"
+#include "Node.h"
+#include "Selector.h"
+#include "StartNode.h"
 
 #include <functional>
 #include <memory>
@@ -12,9 +15,10 @@
 class Board {
 public:
     Board() noexcept;
-    void init();
+    void init(olc::PixelGameEngine *pge);
     void draw(olc::PixelGameEngine *pge) const;
     void update(olc::PixelGameEngine *pge);
+    void evaluateStep(Field &field);
 
 private:
     bool getClickedNode(olc::PixelGameEngine *pge);
@@ -41,4 +45,6 @@ private:
     std::optional<std::size_t> grabbedNode;
     std::optional<std::reference_wrapper<InputPin>> grabbedInputPin;
     std::optional<std::reference_wrapper<OutputPin>> grabbedOutputPin;
+    Selector selector;
+    Evaluator evaluator;
 };

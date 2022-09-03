@@ -12,11 +12,11 @@
 Board::Board() noexcept {
 }
 
-void Board::init() {
-    nodes.emplace_back(new StartNode({20, 20}));
-    nodes.emplace_back(new TurnLeftNode({100, 20}));
-    nodes.at(0)->getOutputPins().at(0).connectTo(
-            nodes.at(1)->getInputPins().at(0));
+void Board::init(olc::PixelGameEngine *pge) {
+    nodes.emplace_back(new StartNode({600, 30}));
+
+    selector.init(pge);
+    evaluator.init(nodes.at(0));
 }
 
 void Board::draw(olc::PixelGameEngine *pge) const {
@@ -36,9 +36,17 @@ void Board::draw(olc::PixelGameEngine *pge) const {
 
         drawDraggedConnection(pge, pinStart, pinEnd);
     }
+
+    selector.draw();
 }
 
 void Board::update(olc::PixelGameEngine *pge) {
+    if (selector.isSelectorOpen()) {
+        if (selector.update()) {
+            nodes.push_back(selector.getResult());
+        }
+        return;
+    }
     checkDragStart(pge);
     handleDragging(pge);
     handleConnectionRightClick(pge);
@@ -46,6 +54,10 @@ void Board::update(olc::PixelGameEngine *pge) {
 }
 
 void Board::checkDragStart(olc::PixelGameEngine *pge) {
+    if (pge->GetMousePos().x < 512) {
+        return;
+    }
+
     if (!pge->GetMouse(0).bPressed || state != State::None) {
         return;
     }
@@ -57,6 +69,8 @@ void Board::checkDragStart(olc::PixelGameEngine *pge) {
     if (getClickedNode(pge)) {
         return;
     }
+
+    selector.open(pge->GetMousePos());
 }
 
 bool Board::getClickedNode(olc::PixelGameEngine *pge) {
@@ -69,6 +83,10 @@ bool Board::getClickedNode(olc::PixelGameEngine *pge) {
         return false;
     }
 
+    if (clickedNode->get()->interact(pge)) {
+        return true;
+    }
+
     state = State::DraggingNode;
     grabbedNode = std::distance(nodes.begin(), clickedNode);
     return true;
@@ -77,8 +95,7 @@ bool Board::getClickedNode(olc::PixelGameEngine *pge) {
 bool Board::getClickedPin(olc::PixelGameEngine *pge) {
     for (auto &node : nodes) {
         for (auto &inputPin : node->getInputPins()) {
-            if (inputPin.isConnected()
-                || !inputPin.isPointOver(pge->GetMousePos())) {
+            if (!inputPin.isPointOver(pge->GetMousePos())) {
                 continue;
             }
 
@@ -105,6 +122,10 @@ bool Board::getClickedPin(olc::PixelGameEngine *pge) {
 }
 
 void Board::handleDragging(olc::PixelGameEngine *pge) {
+    if (pge->GetMousePos().x < 512) {
+        return;
+    }
+
     switch (state) {
     case State::None:
         break;
@@ -135,8 +156,9 @@ void Board::handlePinDragging(olc::PixelGameEngine *pge) {
         for (auto &node : nodes) {
             if (state == State::ConnectingOutputPin) {
                 for (auto &pin : node->getInputPins()) {
-                    if (pin.isConnected()
-                        || !pin.isPointOver(pge->GetMousePos())) {
+                    if (!pin.isPointOver(pge->GetMousePos())
+                        || pin.getPinType()
+                                   != grabbedOutputPin->get().getPinType()) {
                         continue;
                     }
 
@@ -147,7 +169,9 @@ void Board::handlePinDragging(olc::PixelGameEngine *pge) {
             } else {
                 for (auto &pin : node->getOutputPins()) {
                     if (pin.isConnected()
-                        || !pin.isPointOver(pge->GetMousePos())) {
+                        || !pin.isPointOver(pge->GetMousePos())
+                        || pin.getPinType()
+                                   != grabbedInputPin->get().getPinType()) {
                         continue;
                     }
 
@@ -203,7 +227,13 @@ void Board::handleNodeRightClick(olc::PixelGameEngine *pge) {
     nodes.erase(std::remove_if(nodes.begin(),
                                nodes.end(),
                                [&](const auto &node) {
-                                   return node->isPointOver(pge->GetMousePos());
+                                   return &node != &nodes.at(0)
+                                          && node->isPointOver(
+                                                  pge->GetMousePos());
                                }),
                 nodes.end());
+}
+
+void Board::evaluateStep(Field &field) {
+    evaluator.step(field);
 }

@@ -7,14 +7,26 @@ Game::Game() {
 }
 
 bool Game::OnUserCreate() {
-    board.init();
+    board.init(this);
+    field.init();
     return true;
 }
 
-bool Game::OnUserUpdate(float fElapsedTime) {
+bool run = false;
+
+bool Game::OnUserUpdate(float) {
     Clear(olc::BLACK);
 
     board.update(this);
+    if (run) {
+        if (field.update(this)) {
+            board.evaluateStep(field);
+        }
+    }
+
+    if (GetKey(olc::SPACE).bPressed) {
+        run = true;
+    }
 
     board.draw(this);
     field.draw(this);

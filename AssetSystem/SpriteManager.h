@@ -14,7 +14,23 @@ public:
         PinOut,
         StartNode,
         TurnLeftNode,
+        TurnRightNode,
+        WaitNode,
+        BiggerNode,
+        SmallerNode,
+        IfNode,
+        ConstantNode,
+
         Airplane,
+
+        Fields,
+        Forests,
+        Towns,
+        Suburbs,
+        Lakes,
+        Deserts,
+
+        SelectorBackground,
     };
 
     static SpriteManager &getInstance();

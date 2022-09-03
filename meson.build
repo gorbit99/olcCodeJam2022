@@ -29,11 +29,18 @@ sources = [
   'NodeSystem/Node.cpp',
   'NodeSystem/StartNode.cpp',
   'NodeSystem/TurnLeftNode.cpp',
+  'NodeSystem/TurnRightNode.cpp',
   'NodeSystem/NodePin.cpp',
   'NodeSystem/InputPin.cpp',
   'NodeSystem/OutputPin.cpp',
   'NodeSystem/Connection.cpp',
   'NodeSystem/Board.cpp',
+  'NodeSystem/Selector.cpp',
+  'NodeSystem/EvaluationResult.cpp',
+  'NodeSystem/WaitNode.cpp',
+  'NodeSystem/BiggerNode.cpp',
+  'NodeSystem/IfNode.cpp',
+  'NodeSystem/ConstantNode.cpp',
   
   'AssetSystem/SpriteManager.cpp',
 
@@ -41,6 +48,10 @@ sources = [
 
   'Scene/Field.cpp',
   'Scene/Airplane.cpp',
+
+  'Utils/Math.cpp',
+
+  'NodeSystem/Evaluator.cpp',
 ]
 
 include_dir = include_directories('include')

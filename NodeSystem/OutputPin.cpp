@@ -8,7 +8,10 @@ OutputPin::OutputPin(olc::vf2d offset, PinType pinType, Node &parent)
         : NodePin{offset, pinType, parent} {
 }
 
-void OutputPin::sendData(PinData &data) {
+void OutputPin::sendData(PinData data) {
+    if (!connection.has_value()) {
+        return;
+    }
     connection.value().sendData(data);
 }
 

@@ -1,10 +1,14 @@
 #pragma once
 
+#include "NodeSystem/EvaluationResult.h"
 #include "NodeSystem/InputPin.h"
 #include "NodeSystem/NodePin.h"
 #include "NodeSystem/OutputPin.h"
+#include "Scene/Field.h"
 #include "olcPixelGameEngine.h"
 
+#include <cstdint>
+#include <functional>
 #include <optional>
 #include <vector>
 
@@ -26,7 +30,12 @@ public:
 
     void setPosition(olc::vf2d position);
 
+    virtual EvaluationResult evaluate(Field &field) = 0;
+    virtual bool interact(olc::PixelGameEngine *pge);
+
 protected:
+    std::optional<std::reference_wrapper<Node>> connectedFromPin(uint32_t pin);
+
     std::vector<InputPin> inputPins;
     std::vector<OutputPin> outputPins;
 
