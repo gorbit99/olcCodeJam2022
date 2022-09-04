@@ -16,6 +16,7 @@ public:
     void open(olc::vf2d position);
     std::unique_ptr<Node> getResult() const;
     bool isSelectorOpen() const;
+    void reset();
 
 private:
     enum class NodeType {
@@ -24,8 +25,20 @@ private:
         WaitNode,
         BiggerNode,
         SmallerNode,
+        EqualNode,
+        AndNode,
+        OrNode,
         IfNode,
         ConstantNode,
+        LocationNode,
+        CloudNode,
+        PaintRedNode,
+        PaintBlueNode,
+        PaintGreenNode,
+        AddNode,
+        SubtractNode,
+        MultiplyNode,
+        DivideNode,
     };
 
     void close();

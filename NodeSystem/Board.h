@@ -19,6 +19,7 @@ public:
     void draw(olc::PixelGameEngine *pge) const;
     void update(olc::PixelGameEngine *pge);
     void evaluateStep(Field &field);
+    void reset();
 
 private:
     bool getClickedNode(olc::PixelGameEngine *pge);

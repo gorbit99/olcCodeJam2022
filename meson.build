@@ -39,8 +39,18 @@ sources = [
   'NodeSystem/EvaluationResult.cpp',
   'NodeSystem/WaitNode.cpp',
   'NodeSystem/BiggerNode.cpp',
+  'NodeSystem/SmallerNode.cpp',
+  'NodeSystem/EqualNode.cpp',
+  'NodeSystem/AndNode.cpp',
+  'NodeSystem/OrNode.cpp',
   'NodeSystem/IfNode.cpp',
   'NodeSystem/ConstantNode.cpp',
+  'NodeSystem/LocationNode.cpp',
+  'NodeSystem/CloudNode.cpp',
+  'NodeSystem/PaintRedNode.cpp',
+  'NodeSystem/PaintGreenNode.cpp',
+  'NodeSystem/PaintBlueNode.cpp',
+  'NodeSystem/Evaluator.cpp',
   
   'AssetSystem/SpriteManager.cpp',
 
@@ -50,8 +60,9 @@ sources = [
   'Scene/Airplane.cpp',
 
   'Utils/Math.cpp',
+  'Utils/FadeOut.cpp',
 
-  'NodeSystem/Evaluator.cpp',
+  'DialogueSystem/Dialogue.cpp',
 ]
 
 include_dir = include_directories('include')

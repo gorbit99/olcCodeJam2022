@@ -3,9 +3,22 @@
 #include "AssetSystem/SpriteManager.h"
 #include "BiggerNode.h"
 #include "ConstantNode.h"
+#include "NodeSystem/AddNode.h"
+#include "NodeSystem/AndNode.h"
+#include "NodeSystem/CloudNode.h"
+#include "NodeSystem/DivideNode.h"
+#include "NodeSystem/EqualNode.h"
 #include "NodeSystem/IfNode.h"
+#include "NodeSystem/LocationNode.h"
+#include "NodeSystem/MultiplyNode.h"
+#include "NodeSystem/OrNode.h"
+#include "NodeSystem/PaintBlueNode.h"
+#include "NodeSystem/PaintGreenNode.h"
+#include "NodeSystem/PaintRedNode.h"
+#include "NodeSystem/SubtractNode.h"
 #include "NodeSystem/TurnLeftNode.h"
 #include "NodeSystem/TurnRightNode.h"
+#include "SmallerNode.h"
 #include "WaitNode.h"
 
 #include <algorithm>
@@ -134,10 +147,36 @@ std::string Selector::nodeTypeToName(NodeType nodeType) {
         return "Wait";
     case NodeType::BiggerNode:
         return "Greater";
+    case NodeType::SmallerNode:
+        return "Less";
+    case NodeType::EqualNode:
+        return "Equal";
+    case NodeType::AndNode:
+        return "And";
+    case NodeType::OrNode:
+        return "Or";
     case NodeType::IfNode:
         return "If";
     case NodeType::ConstantNode:
         return "Constant";
+    case NodeType::LocationNode:
+        return "Location";
+    case NodeType::CloudNode:
+        return "Create Cloud";
+    case NodeType::PaintRedNode:
+        return "Paint Red";
+    case NodeType::PaintGreenNode:
+        return "Paint Green";
+    case NodeType::PaintBlueNode:
+        return "Paint Blue";
+    case NodeType::AddNode:
+        return "Add";
+    case NodeType::SubtractNode:
+        return "Subtract";
+    case NodeType::MultiplyNode:
+        return "Multiply";
+    case NodeType::DivideNode:
+        return "Divide";
     }
     return "";
 }
@@ -153,10 +192,36 @@ std::unique_ptr<Node> Selector::nodeTypeToNode(NodeType nodeType,
         return std::make_unique<WaitNode>(position);
     case NodeType::BiggerNode:
         return std::make_unique<BiggerNode>(position);
+    case NodeType::SmallerNode:
+        return std::make_unique<SmallerNode>(position);
+    case NodeType::EqualNode:
+        return std::make_unique<EqualNode>(position);
     case NodeType::IfNode:
         return std::make_unique<IfNode>(position);
     case NodeType::ConstantNode:
         return std::make_unique<ConstantNode>(position);
+    case NodeType::LocationNode:
+        return std::make_unique<LocationNode>(position);
+    case NodeType::CloudNode:
+        return std::make_unique<CloudNode>(position);
+    case NodeType::PaintRedNode:
+        return std::make_unique<PaintRedNode>(position);
+    case NodeType::PaintGreenNode:
+        return std::make_unique<PaintGreenNode>(position);
+    case NodeType::PaintBlueNode:
+        return std::make_unique<PaintBlueNode>(position);
+    case NodeType::AndNode:
+        return std::make_unique<AndNode>(position);
+    case NodeType::OrNode:
+        return std::make_unique<OrNode>(position);
+    case NodeType::AddNode:
+        return std::make_unique<AddNode>(position);
+    case NodeType::SubtractNode:
+        return std::make_unique<SubtractNode>(position);
+    case NodeType::MultiplyNode:
+        return std::make_unique<MultiplyNode>(position);
+    case NodeType::DivideNode:
+        return std::make_unique<DivideNode>(position);
     }
 }
 
@@ -165,8 +230,20 @@ const std::vector<Selector::NodeType> Selector::nodeTypes = {
         NodeType::TurnRightNode,
         NodeType::WaitNode,
         NodeType::BiggerNode,
+        NodeType::SmallerNode,
         NodeType::IfNode,
+        NodeType::AndNode,
+        NodeType::OrNode,
         NodeType::ConstantNode,
+        NodeType::LocationNode,
+        NodeType::CloudNode,
+        NodeType::PaintRedNode,
+        NodeType::PaintGreenNode,
+        NodeType::PaintBlueNode,
+        NodeType::AddNode,
+        NodeType::SubtractNode,
+        NodeType::MultiplyNode,
+        NodeType::DivideNode,
 };
 
 std::vector<Selector::NodeType> Selector::getMatches() const {
@@ -202,4 +279,9 @@ std::unique_ptr<Node> Selector::getResult() const {
 
 bool Selector::isSelectorOpen() const {
     return isOpen;
+}
+
+void Selector::reset() {
+    isOpen = false;
+    pge->TextEntryEnable(false);
 }

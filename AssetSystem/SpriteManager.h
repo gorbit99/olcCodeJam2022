@@ -18,8 +18,21 @@ public:
         WaitNode,
         BiggerNode,
         SmallerNode,
+        AndNode,
+        OrNode,
+        EqualNode,
         IfNode,
         ConstantNode,
+        LocationNode,
+        CloudNode,
+        RedPaintNode,
+        GreenPaintNode,
+        BluePaintNode,
+        DirectionNode,
+        AddNode,
+        MultiplyNode,
+        DivideNode,
+        SubtractNode,
 
         Airplane,
 
@@ -31,6 +44,13 @@ public:
         Deserts,
 
         SelectorBackground,
+
+        JavidCharacter,
+        MorosCharacter,
+        GorbitCharacter,
+
+        StartButton,
+        StopButton,
     };
 
     static SpriteManager &getInstance();

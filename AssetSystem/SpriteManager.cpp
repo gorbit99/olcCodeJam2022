@@ -15,8 +15,22 @@ SpriteManager::SpriteManager() {
     assetPaths[SpriteAssets::WaitNode] = "./res/sprites/WaitNode.png";
     assetPaths[SpriteAssets::BiggerNode] = "./res/sprites/BiggerNode.png";
     assetPaths[SpriteAssets::SmallerNode] = "./res/sprites/SmallerNode.png";
+    assetPaths[SpriteAssets::AndNode] = "./res/sprites/AndNode.png";
+    assetPaths[SpriteAssets::OrNode] = "./res/sprites/OrNode.png";
+    assetPaths[SpriteAssets::EqualNode] = "./res/sprites/EqualNode.png";
     assetPaths[SpriteAssets::IfNode] = "./res/sprites/IfNode.png";
     assetPaths[SpriteAssets::ConstantNode] = "./res/sprites/ConstantNode.png";
+    assetPaths[SpriteAssets::LocationNode] = "./res/sprites/LocationNode.png";
+    assetPaths[SpriteAssets::CloudNode] = "./res/sprites/CloudNode.png";
+    assetPaths[SpriteAssets::RedPaintNode] = "./res/sprites/RedPaintNode.png";
+    assetPaths[SpriteAssets::GreenPaintNode] =
+            "./res/sprites/GreenPaintNode.png";
+    assetPaths[SpriteAssets::BluePaintNode] = "./res/sprites/BluePaintNode.png";
+    assetPaths[SpriteAssets::DirectionNode] = "./res/sprites/DirectionNode.png";
+    assetPaths[SpriteAssets::AddNode] = "./res/sprites/AddNode.png";
+    assetPaths[SpriteAssets::SubtractNode] = "./res/sprites/SubtractNode.png";
+    assetPaths[SpriteAssets::MultiplyNode] = "./res/sprites/MultiplyNode.png";
+    assetPaths[SpriteAssets::DivideNode] = "./res/sprites/DivideNode.png";
 
     assetPaths[SpriteAssets::Airplane] = "./res/sprites/Airplane.png";
 
@@ -29,6 +43,12 @@ SpriteManager::SpriteManager() {
 
     assetPaths[SpriteAssets::SelectorBackground] =
             "./res/sprites/SelectorBackground.png";
+
+    assetPaths[SpriteAssets::JavidCharacter] =
+            "./res/sprites/JavidCharacter0.png";
+
+    assetPaths[SpriteAssets::StartButton] = "./res/sprites/StartButton.png";
+    assetPaths[SpriteAssets::StopButton] = "./res/sprites/StopButton.png";
 }
 
 SpriteManager &SpriteManager::getInstance() {

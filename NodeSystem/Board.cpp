@@ -13,7 +13,7 @@ Board::Board() noexcept {
 }
 
 void Board::init(olc::PixelGameEngine *pge) {
-    nodes.emplace_back(new StartNode({600, 30}));
+    nodes.emplace_back(new StartNode({650, 30}));
 
     selector.init(pge);
     evaluator.init(nodes.at(0));
@@ -54,7 +54,7 @@ void Board::update(olc::PixelGameEngine *pge) {
 }
 
 void Board::checkDragStart(olc::PixelGameEngine *pge) {
-    if (pge->GetMousePos().x < 512) {
+    if (pge->GetMousePos().x < 600) {
         return;
     }
 
@@ -122,7 +122,7 @@ bool Board::getClickedPin(olc::PixelGameEngine *pge) {
 }
 
 void Board::handleDragging(olc::PixelGameEngine *pge) {
-    if (pge->GetMousePos().x < 512) {
+    if (pge->GetMousePos().x < 600) {
         return;
     }
 
@@ -236,4 +236,9 @@ void Board::handleNodeRightClick(olc::PixelGameEngine *pge) {
 
 void Board::evaluateStep(Field &field) {
     evaluator.step(field);
+}
+
+void Board::reset() {
+    selector.reset();
+    evaluator.init(nodes.at(0));
 }

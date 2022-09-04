@@ -12,13 +12,22 @@
 #include <utility>
 #include <vector>
 
-void Field::init() {
+void Field::init(std::array<std::array<CloudState, 16>, 16> initialState,
+                 std::array<std::array<CloudState, 16>, 16> winState) {
+    this->clouds = initialState;
+    this->targetState = winState;
+    this->initialState = initialState;
+
     initBackground();
     initSeparator();
     initClouds();
 }
 
 bool Field::update(olc::PixelGameEngine *pge) {
+    if (firstTurn) {
+        firstTurn = false;
+        return true;
+    }
     if (airplane.update(pge)) {
         if (changingCloud.has_value()) {
             clouds[changingCloud->first.y][changingCloud->first.x] =
@@ -170,8 +179,6 @@ void Field::initClouds() {
 }
 
 void Field::initCloud(uint32_t x, uint32_t y) {
-    clouds[y][x] = rand() % 2 == 0 ? CloudState::None : CloudState::Regular;
-
     for (auto dx = 0; dx < 3; dx++) {
         for (auto dy = 0; dy < 3; dy++) {
             auto xOffset = rand() % 6 - 3;
@@ -194,7 +201,8 @@ void Field::drawCloud(olc::PixelGameEngine *pge,
                       int32_t tileX,
                       int32_t tileY) const {
     if (clouds[tileY][tileX] == CloudState::None
-        && changingCloud->first != olc::vi2d{tileX, tileY}) {
+        && (!changingCloud.has_value()
+            || changingCloud->first != olc::vi2d{tileX, tileY})) {
         return;
     }
 
@@ -205,7 +213,9 @@ void Field::drawCloud(olc::PixelGameEngine *pge,
     if (changingCloud.has_value()
         && changingCloud->first == olc::vi2d{tileX, tileY}) {
         if (changingCloud->second == CloudState::None) {
-            currentRadius = std::max(0.0f, currentRadius - turnTimer * 60);
+            currentRadius = std::max(
+                    0.0f,
+                    currentRadius - turnTimer * 30 / Airplane::moveTime);
         } else if (clouds[tileY][tileX] == CloudState::None) {
             currentRadius = std::min(cloudGraphic.maxRadius, turnTimer * 60);
             currentColor = cloudColors[changingCloud->second];
@@ -252,4 +262,41 @@ void Field::turnLeft() {
 
 void Field::turnRight() {
     airplane.turnRight();
+}
+
+olc::vi2d Field::getPlanePosition() const {
+    return airplane.getPosition();
+}
+
+void Field::reset() {
+    clouds = initialState;
+    airplane.reset();
+    firstTurn = true;
+    changingCloud.reset();
+    animTimer = 0;
+    turnTimer = 0;
+}
+
+void Field::createCloud() {
+    changingCloud = std::make_pair(airplane.getPosition(), CloudState::Regular);
+}
+
+void Field::paintCloud(CloudColor color) {
+    switch (color) {
+    case CloudColor::Red:
+        changingCloud = std::make_pair(airplane.getPosition(), CloudState::Red);
+        break;
+    case CloudColor::Green:
+        changingCloud =
+                std::make_pair(airplane.getPosition(), CloudState::Green);
+        break;
+    case CloudColor::Blue:
+        changingCloud =
+                std::make_pair(airplane.getPosition(), CloudState::Blue);
+        break;
+    }
+}
+
+Airplane::Direction Field::getPlaneDirection() const {
+    return airplane.getDirection();
 }

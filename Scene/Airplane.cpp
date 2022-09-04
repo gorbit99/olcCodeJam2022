@@ -169,3 +169,14 @@ olc::vf2d Airplane::getPositionOffset() const {
 olc::vi2d Airplane::getPosition() const {
     return position;
 }
+
+void Airplane::reset() {
+    position = {0, 0};
+    direction = Direction::Right;
+    nextDirection = Direction::Right;
+    currentMoveProgress = 0;
+}
+
+Airplane::Direction Airplane::getDirection() const {
+    return direction;
+}
